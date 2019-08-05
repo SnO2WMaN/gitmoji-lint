@@ -1,102 +1,30 @@
-const emojis = [
-	':art:',
-	':newspaper:',
-	':pencil:',
-	':memo:',
-	':zap:',
-	':fire:',
-	':books:',
-	':bug:',
-	':ambulance:',
-	':penguin:',
-	':apple:',
-	':checkered_flag:',
-	':robot:',
-	':green_ale:',
-	':tractor:',
-	':recycle:',
-	':white_check_mark:',
-	':microscope:',
-	':green_heart:',
-	':lock:',
-	':arrow_up:',
-	':arrow_down:',
-	':fast_forward:',
-	':rewind:',
-	':rotating_light:',
-	':lipstick:',
-	':wheelchair:',
-	':globe_with_meridians:',
-	':construction:',
-	':gem:',
-	':bookmark:',
-	':tada:',
-	':loud_sound:',
-	':mute:',
-	':sparkles:',
-	':speech_balloon:',
-	':bulb:',
-	':construction_worker:',
-	':chart_with_upwards_trend:',
-	':ribbon:',
-	':rocket:',
-	':heavy_minus_sign:',
-	':heavy_plus_sign:',
-	':wrench:',
-	':hankey:',
-	':leaves:',
-	':bank:',
-	':whale:',
-	':twisted_rightwards_arrows:',
-	':pushpin:',
-	':busts_in_silhouette:',
-	':children_crossing:',
-	':building_construction:',
-	':iphone:',
-	':clown_face:',
-	':ok_hand:',
-	':boom:',
-	':bento:',
-	':pencil2:',
-	':package:',
-	':alien:',
-	':truck:',
-	':age_facing_up:',
-	':busts_in_silhouette:',
-	':card_file_box:',
-	':loud_sound:',
-	':mute:',
-	':egg:',
-	':see_no_evil:',
-	':camera_flash:',
-	':alembic:',
-	':mag:',
-	':wheel_of_dharma:',
-	':label:'
-]
-
+#!/usr/bin/env node
+const commandLineArgs = require('command-line-args')
 const { unemojify } = require('node-emoji')
 const colors = require('colors/safe')
+const emojis = require('./emojis')
 
-if (!process.argv[2]) {
+const options = commandLineArgs([{ name: 'message', alias: 'm', type: String }])
+
+if (!options.message) {
 	console.error(`🚨  ${colors.red('No Commit Message')}.`)
-	return false
+	process.exit(1)
 }
 
-const commitmsg = process.argv[2]
+const commitmsg = options.message
 const unemojifyMsg = unemojify(commitmsg)
 
 if (!/^:.*:/.test(unemojifyMsg)) {
-	console.error(`🚨  ${colors.magenta(commitmsg)}`)
+	console.error(`🚨  "${colors.magenta(commitmsg)}"`)
 	console.error(`No emoji prefix.`)
-	return false
+	process.exit(1)
 }
 
 const emoji = /^:.*:/.exec(unemojifyMsg)[0]
 
 if (!emojis.includes(emoji)) {
-	console.error(`🚨  ${colors.cyan(commitmsg)}`)
+	console.error(`🚨  "${colors.cyan(commitmsg)}"`)
 	console.error(`${emoji} is not supported.`)
-	return false
+	process.exit(1)
 }
-console.log(`🆗  ${colors.cyan(commitmsg)}`)
+console.log(`🆗  "${colors.cyan(commitmsg)}"`)

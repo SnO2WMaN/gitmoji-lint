@@ -9,5 +9,8 @@
 		"prettier",
 		"plugin:node/recommended",
 		"plugin:prettier/recommended"
-	]
+	],
+	"rules": {
+		"no-process-exit": 0
+	}
 }
