@@ -10,5 +10,9 @@
 		"commit": "gitmoji -c",
 		"lint": "eslint index.js --fix",
 		"fmt": "prettier index.js --write"
+	},
+	"dependencies": {
+		"colors": "^1.3.3",
+		"node-emoji": "^1.10.0"
 	}
 }
