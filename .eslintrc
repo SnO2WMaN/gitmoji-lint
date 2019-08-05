@@ -8,6 +8,7 @@
 		"eslint:recommended",
 		"prettier",
 		"plugin:node/recommended",
+		"plugin:ava/recommended",
 		"plugin:prettier/recommended"
 	],
 	"rules": {
