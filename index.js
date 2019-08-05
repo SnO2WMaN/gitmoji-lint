@@ -4,14 +4,17 @@ const { unemojify, emojify } = require('node-emoji')
 const colors = require('colors/safe')
 const emojis = require('./emojis')
 
-const options = commandLineArgs([{ name: 'message', alias: 'm', type: String }])
+const options = commandLineArgs([
+	{ name: 'message', alias: 'm', defaultValue: null, type: String },
+	{ name: 'env', alias: 'e', defaultValue: null, type: String }
+])
 
-if (!options.message) {
+if (!options.message && !(options.env && options.env in process.env)) {
 	console.error(`🚨  ${colors.red('No Commit Message')}.`)
 	process.exit(1)
 }
 
-const commitmsg = options.message
+const commitmsg = options.message || process.env[options.env]
 const unemojifyMsg = unemojify(commitmsg)
 const type = commitmsg.charAt(0) === ':'
 
