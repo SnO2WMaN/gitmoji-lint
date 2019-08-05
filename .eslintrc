@@ -5,6 +5,9 @@
 		"node": true
 	},
 	"extends": [
-		"eslint:recommended"
+		"eslint:recommended",
+		"prettier",
+		"plugin:node/recommended",
+		"plugin:prettier/recommended"
 	]
 }
