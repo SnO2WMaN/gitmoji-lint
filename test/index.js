@@ -14,13 +14,6 @@ test('Correct commit msg (text ver)', async t => {
 	t.pass()
 })
 
-test('Correct commit msg (env ver)', async t => {
-	process.env.HUSKY_GIT_PARAMS = '🎨 commitmsg'
-	await cli('node', ['./index.js', '-e', 'HUSKY_GIT_PARAMS'])
-	t.pass()
-	delete process.env.HUSKY_GIT_PARAMS
-})
-
 test('Incorrect commit msg (no message)', async t => {
 	await t.throwsAsync(async () => await cli('node', ['./index.js']))
 })

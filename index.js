@@ -3,18 +3,22 @@ const commandLineArgs = require('command-line-args')
 const { unemojify, emojify } = require('node-emoji')
 const colors = require('colors/safe')
 const emojis = require('./emojis')
+const { readFileSync } = require('fs')
 
 const options = commandLineArgs([
 	{ name: 'message', alias: 'm', defaultValue: null, type: String },
-	{ name: 'env', alias: 'e', defaultValue: null, type: String }
+	{ name: 'husky', alias: 'h', defaultValue: false, type: Boolean }
 ])
 
-if (!options.message && !(options.env && options.env in process.env)) {
+if (!options.husky && !options.message) {
 	console.error(`🚨  ${colors.red('No Commit Message')}.`)
 	process.exit(1)
 }
 
-const commitmsg = options.message || process.env[options.env]
+const commitmsg = options.husky
+	? readFileSync(process.env.HUSKY_GIT_PARAMS, { encoding: 'utf8' })
+	: options.message
+
 const unemojifyMsg = unemojify(commitmsg)
 const type = commitmsg.charAt(0) === ':'
 
