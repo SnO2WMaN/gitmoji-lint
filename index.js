@@ -16,14 +16,16 @@ if (!options.husky && !options.message) {
 }
 
 const commitmsg = options.husky
-	? readFileSync(process.env.HUSKY_GIT_PARAMS, { encoding: 'utf8' })
+	? readFileSync(process.env.HUSKY_GIT_PARAMS, { encoding: 'utf8' }).split(
+			'\n'
+	  )[0]
 	: options.message
 
 const unemojifyMsg = unemojify(commitmsg)
 const type = commitmsg.charAt(0) === ':'
 
 if (!/^:.*:/.test(unemojifyMsg)) {
-	console.error(`🚨  "${colors.magenta(commitmsg)}"`)
+	console.error(`🚨  ${colors.red(`"${commitmsg}"`)}`)
 	console.error(`No emoji prefix.`)
 	process.exit(1)
 }
@@ -31,19 +33,19 @@ if (!/^:.*:/.test(unemojifyMsg)) {
 const emoji = /^:.*:/.exec(unemojifyMsg)[0]
 
 if (!emojis.includes(emoji)) {
-	console.error(`🚨  "${colors.cyan(commitmsg)}"`)
+	console.error(`🚨  ${colors.red(`"${commitmsg}"`)}`)
 	console.error(`${type ? emoji : emojify(emoji)} is not supported.`)
 	process.exit(1)
 }
 
 if (unemojifyMsg.length === emoji.length) {
-	console.error(`🚨  "${colors.cyan(commitmsg)}"`)
+	console.error(`🚨  ${colors.red(`"${commitmsg}"`)}`)
 	console.error(`Commit message must have a title.`)
 	process.exit(1)
 }
 
 if (unemojifyMsg.charAt(emoji.length) != ' ') {
-	console.error(`🚨  "${colors.cyan(commitmsg)}"`)
+	console.error(`🚨  ${colors.red(`"${commitmsg}"`)}`)
 	console.error(
 		`The character after ${type ? emoji : emojify(emoji)} must be space.`
 	)
