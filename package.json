@@ -1,0 +1,14 @@
+{
+	"name": "gitmoji-lint",
+	"license": "MIT",
+	"devDependencies": {
+		"eslint": "^6.1.0",
+		"gitmoji-cli": "^1.9.4",
+		"prettier": "^1.18.2"
+	},
+	"scripts": {
+		"commit": "gitmoji -c",
+		"lint": "eslint index.js --fix",
+		"fmt": "prettier index.js --write"
+	}
+}
